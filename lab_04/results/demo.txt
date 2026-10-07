@@ -1,0 +1,31 @@
+$ python lab_04/lab_python_fp/print_result.py
+test_1
+1
+test_2
+iu5
+test_3
+a = 1
+b = 2
+test_4
+1
+2
+
+$ python lab_04/lab_python_fp/cm_timer.py
+time: 0.025038
+time: 0.025048
+
+$ python lab_04/main.py lab_04/data/demo.json --seed 21
+f1
+Аналитик
+Программист C#
+Программист Python
+f2
+Программист C#
+Программист Python
+f3
+Программист C# с опытом Python
+Программист Python с опытом Python
+f4
+Программист C# с опытом Python, зарплата 121620 руб.
+Программист Python с опытом Python, зарплата 154787 руб.
+time: 0.000023

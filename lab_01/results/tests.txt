@@ -1,0 +1,42 @@
+$ python -m pytest lab_01 -v --tb=short
+============================= test session starts ==============================
+platform darwin -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- /Users/grigorij/Documents/Codex/2026-10-07/work/labs-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs
+configfile: pytest.ini
+plugins: bdd-8.1.0
+collecting ... collected 31 items
+
+lab_01/test_equations.py::test_real_roots[coefficients0-roots0-False-solve0] PASSED [  3%]
+lab_01/test_equations.py::test_real_roots[coefficients0-roots0-False-solve1] PASSED [  6%]
+lab_01/test_equations.py::test_real_roots[coefficients0-roots0-False-<lambda>] PASSED [  9%]
+lab_01/test_equations.py::test_real_roots[coefficients1-roots1-False-solve0] PASSED [ 12%]
+lab_01/test_equations.py::test_real_roots[coefficients1-roots1-False-solve1] PASSED [ 16%]
+lab_01/test_equations.py::test_real_roots[coefficients1-roots1-False-<lambda>] PASSED [ 19%]
+lab_01/test_equations.py::test_real_roots[coefficients2-roots2-False-solve0] PASSED [ 22%]
+lab_01/test_equations.py::test_real_roots[coefficients2-roots2-False-solve1] PASSED [ 25%]
+lab_01/test_equations.py::test_real_roots[coefficients2-roots2-False-<lambda>] PASSED [ 29%]
+lab_01/test_equations.py::test_real_roots[coefficients3-roots3-False-solve0] PASSED [ 32%]
+lab_01/test_equations.py::test_real_roots[coefficients3-roots3-False-solve1] PASSED [ 35%]
+lab_01/test_equations.py::test_real_roots[coefficients3-roots3-False-<lambda>] PASSED [ 38%]
+lab_01/test_equations.py::test_real_roots[coefficients4-roots4-False-solve0] PASSED [ 41%]
+lab_01/test_equations.py::test_real_roots[coefficients4-roots4-False-solve1] PASSED [ 45%]
+lab_01/test_equations.py::test_real_roots[coefficients4-roots4-False-<lambda>] PASSED [ 48%]
+lab_01/test_equations.py::test_real_roots[coefficients5-roots5-False-solve0] PASSED [ 51%]
+lab_01/test_equations.py::test_real_roots[coefficients5-roots5-False-solve1] PASSED [ 54%]
+lab_01/test_equations.py::test_real_roots[coefficients5-roots5-False-<lambda>] PASSED [ 58%]
+lab_01/test_equations.py::test_real_roots[coefficients6-roots6-False-solve0] PASSED [ 61%]
+lab_01/test_equations.py::test_real_roots[coefficients6-roots6-False-solve1] PASSED [ 64%]
+lab_01/test_equations.py::test_real_roots[coefficients6-roots6-False-<lambda>] PASSED [ 67%]
+lab_01/test_equations.py::test_real_roots[coefficients7-roots7-False-solve0] PASSED [ 70%]
+lab_01/test_equations.py::test_real_roots[coefficients7-roots7-False-solve1] PASSED [ 74%]
+lab_01/test_equations.py::test_real_roots[coefficients7-roots7-False-<lambda>] PASSED [ 77%]
+lab_01/test_equations.py::test_real_roots[coefficients8-roots8-True-solve0] PASSED [ 80%]
+lab_01/test_equations.py::test_real_roots[coefficients8-roots8-True-solve1] PASSED [ 83%]
+lab_01/test_equations.py::test_real_roots[coefficients8-roots8-True-<lambda>] PASSED [ 87%]
+lab_01/test_equations.py::test_real_roots[coefficients9-roots9-False-solve0] PASSED [ 90%]
+lab_01/test_equations.py::test_real_roots[coefficients9-roots9-False-solve1] PASSED [ 93%]
+lab_01/test_equations.py::test_real_roots[coefficients9-roots9-False-<lambda>] PASSED [ 96%]
+lab_01/test_equations.py::test_invalid_and_missing_coefficients PASSED   [100%]
+
+============================== 31 passed in 0.02s ==============================

@@ -1,0 +1,32 @@
+{
+  "lab_01": {
+    "pages": 7,
+    "template_parts_preserved": true,
+    "visually_reviewed": true
+  },
+  "lab_02": {
+    "pages": 6,
+    "template_parts_preserved": true,
+    "visually_reviewed": true
+  },
+  "lab_03": {
+    "pages": 6,
+    "template_parts_preserved": true,
+    "visually_reviewed": true
+  },
+  "lab_04": {
+    "pages": 7,
+    "template_parts_preserved": true,
+    "visually_reviewed": true
+  },
+  "lab_05": {
+    "pages": 6,
+    "template_parts_preserved": true,
+    "visually_reviewed": true
+  },
+  "lab_06": {
+    "pages": 6,
+    "template_parts_preserved": true,
+    "visually_reviewed": true
+  }
+}

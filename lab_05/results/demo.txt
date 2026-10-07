@@ -1,0 +1,18 @@
+$ python -m pytest lab_05 -v --tb=short
+============================= test session starts ==============================
+platform darwin -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- /Users/grigorij/Documents/Codex/2026-10-07/work/labs-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs
+configfile: pytest.ini
+plugins: bdd-8.1.0
+collecting ... collected 7 items
+
+lab_05/test_bdd.py::test_four_distinct_real_roots PASSED                 [ 14%]
+lab_05/test_bdd.py::test_no_real_roots PASSED                            [ 28%]
+lab_05/test_bdd.py::test_every_real_number_is_a_solution PASSED          [ 42%]
+lab_05/test_tdd.py::test_four_roots PASSED                               [ 57%]
+lab_05/test_tdd.py::test_no_real_roots PASSED                            [ 71%]
+lab_05/test_tdd.py::test_degenerate_identity PASSED                      [ 85%]
+lab_05/test_tdd.py::test_bad_input_with_mock PASSED                      [100%]
+
+============================== 7 passed in 0.02s ===============================

@@ -1,0 +1,18 @@
+$ python -m pytest lab_02 -v --tb=short
+============================= test session starts ==============================
+platform darwin -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- /Users/grigorij/Documents/Codex/2026-10-07/work/labs-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs
+configfile: pytest.ini
+plugins: bdd-8.1.0
+collecting ... collected 7 items
+
+lab_02/lab_python_oop/test_shapes.py::test_variant_21 PASSED             [ 14%]
+lab_02/lab_python_oop/test_shapes.py::test_inheritance_and_class_name PASSED [ 28%]
+lab_02/lab_python_oop/test_shapes.py::test_invalid_size[0] PASSED        [ 42%]
+lab_02/lab_python_oop/test_shapes.py::test_invalid_size[-1] PASSED       [ 57%]
+lab_02/lab_python_oop/test_shapes.py::test_invalid_size[nan] PASSED      [ 71%]
+lab_02/lab_python_oop/test_shapes.py::test_invalid_size[inf] PASSED      [ 85%]
+lab_02/lab_python_oop/test_shapes.py::test_color_property_and_representation PASSED [100%]
+
+============================== 7 passed in 0.01s ===============================

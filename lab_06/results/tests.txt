@@ -1,0 +1,20 @@
+$ python -m pytest lab_06 -v --tb=short
+============================= test session starts ==============================
+platform darwin -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- /Users/grigorij/Documents/Codex/2026-10-07/work/labs-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs
+configfile: pytest.ini
+plugins: bdd-8.1.0
+collecting ... collected 9 items
+
+lab_06/test_bdd.py::test_email_notification PASSED                       [ 11%]
+lab_06/test_bdd.py::test_sms_notification PASSED                         [ 22%]
+lab_06/test_bdd.py::test_empty_notification_is_rejected PASSED           [ 33%]
+lab_06/test_factory.py::test_factory_returns_correct_product[EmailService-EmailNotification] PASSED [ 44%]
+lab_06/test_factory.py::test_factory_returns_correct_product[SmsService-SmsNotification] PASSED [ 55%]
+lab_06/test_factory.py::test_email_format PASSED                         [ 66%]
+lab_06/test_factory.py::test_mock_output_called_once PASSED              [ 77%]
+lab_06/test_factory.py::test_empty_message_does_not_write PASSED         [ 88%]
+lab_06/test_factory.py::test_output_failure_propagates PASSED            [100%]
+
+============================== 9 passed in 0.02s ===============================

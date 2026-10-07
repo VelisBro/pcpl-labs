@@ -1,0 +1,14 @@
+$ python lab_03/lab_python_fp/field.py
+['Ковер', 'Диван для отдыха']
+[{'title': 'Ковер', 'price': 2000}, {'title': 'Диван для отдыха'}]
+
+$ python lab_03/lab_python_fp/gen_random.py
+[1, 2, 3, 2, 3]
+
+$ python lab_03/lab_python_fp/unique.py
+['a', 'A', 'b', 'B']
+['a', 'b']
+
+$ python lab_03/lab_python_fp/sort.py
+[123, 100, -100, -30, 30, 4, -4, 1, -1, 0]
+[123, 100, -100, -30, 30, 4, -4, 1, -1, 0]

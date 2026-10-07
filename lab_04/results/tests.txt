@@ -1,0 +1,15 @@
+$ python -m pytest lab_04 -v --tb=short
+============================= test session starts ==============================
+platform darwin -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- /Users/grigorij/Documents/Codex/2026-10-07/work/labs-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs
+configfile: pytest.ini
+plugins: bdd-8.1.0
+collecting ... collected 4 items
+
+lab_04/test_pipeline.py::test_pipeline PASSED                            [ 25%]
+lab_04/test_pipeline.py::test_decorator_preserves_return_and_arguments PASSED [ 50%]
+lab_04/test_pipeline.py::test_timers_log_and_propagate_exception[cm_timer_1] PASSED [ 75%]
+lab_04/test_pipeline.py::test_timers_log_and_propagate_exception[cm_timer_2] PASSED [100%]
+
+============================== 4 passed in 0.02s ===============================

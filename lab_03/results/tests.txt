@@ -1,0 +1,14 @@
+$ python -m pytest lab_03 -v --tb=short
+============================= test session starts ==============================
+platform darwin -- Python 3.12.10, pytest-8.4.2, pluggy-1.6.0 -- /Users/grigorij/Documents/Codex/2026-10-07/work/labs-venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs
+configfile: pytest.ini
+plugins: bdd-8.1.0
+collecting ... collected 3 items
+
+lab_03/test_generators.py::test_field_omits_only_none PASSED             [ 33%]
+lab_03/test_generators.py::test_unique_generator_preserves_values PASSED [ 66%]
+lab_03/test_generators.py::test_random_bounds_and_empty PASSED           [100%]
+
+============================== 3 passed in 0.01s ===============================
