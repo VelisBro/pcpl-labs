@@ -1,0 +1,7 @@
+[package]
+name = "grade_analyzer"
+version = "0.1.0"
+edition = "2021"
+description = "Учебный анализатор оценок на Rust для ДЗ по ПиКЯП"
+
+[dependencies]

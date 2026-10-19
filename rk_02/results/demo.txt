@@ -1,0 +1,16 @@
+$ python3 -m rk_02.solution
+А1
+('not', 1, 'язык Ada')
+('*', 2, 'язык Python')
+('+', 2, 'язык Python')
+('-', 2, 'язык Rust')
+
+А2
+('язык Python', 4)
+('язык Rust', 2)
+('язык Ada', 1)
+
+А3
+язык Python: +, *
+язык Rust: +, -
+язык Ada: not

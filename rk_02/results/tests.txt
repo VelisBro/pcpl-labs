@@ -1,0 +1,8 @@
+test_a1_join_and_sort (rk_02.test_queries.QueryTests.test_a1_join_and_sort) ... ok
+test_a2_sum_sort_and_empty_groups (rk_02.test_queries.QueryTests.test_a2_sum_sort_and_empty_groups) ... ok
+test_a3_filter_and_many_to_many (rk_02.test_queries.QueryTests.test_a3_filter_and_many_to_many) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK

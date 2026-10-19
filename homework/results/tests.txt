@@ -1,0 +1,26 @@
+
+running 6 tests
+test tests::counts_histogram_and_handles_empty_collections ... ok
+test tests::parses_unicode_and_crlf ... ok
+test tests::rejects_empty_input ... ok
+test tests::rejects_invalid_records ... ok
+test tests::reports_duplicate_line_number ... ok
+test tests::sorts_average_and_name_without_mutation ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling grade_analyzer v0.1.0 (/Users/grigorij/Documents/Codex/2026-10-07/pcpl-labs/homework)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running unittests src/lib.rs (target/debug/deps/grade_analyzer-c96f93c2e08048b1)
+     Running unittests src/main.rs (target/debug/deps/grade_analyzer-5361661da546b766)
+   Doc-tests grade_analyzer
