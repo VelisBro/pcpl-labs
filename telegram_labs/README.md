@@ -143,9 +143,11 @@ python -m telegram_labs.demo 6
 Тесты работают без токена и сети: диспетчер python-telegram-bot настоящий, ответы Bot API
 подменены локальным транспортом. Это проверка обработчиков, а не доказательство доставки
 в Telegram. Журналы находятся в `lab_05/results` и `lab_06/results`.
-В `report.md` подготовлены тексты отчётов; для завершения нужны реальные экранные формы
-из Telegram после ввода нового токена. Старые отчёты по тестированию и Factory Method
-удалены, поскольку не описывают текущие лабораторные.
+В папках обеих работ находятся `report.docx`, `report.pdf` и `report.md` с реальными
+экранными формами Telegram. Использован предоставленный титульник, проверяющий —
+Гапанюк Ю. Е. Старые отчёты по тестированию и Factory Method доступны в истории Git.
+Повторный экспорт DOCX: `python tools/export_bot_reports.py --template /path/to/title.docx`
+в среде с python-docx, lxml и Pillow. PDF создаётся из DOCX с проверкой вёрстки.
 
 Официальная документация:
 [BotFather](https://core.telegram.org/bots/tutorial),
