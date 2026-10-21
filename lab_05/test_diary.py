@@ -92,7 +92,8 @@ def test_buttons_import_and_failed_replacement(tmp_path):
             await app.process_update(incoming(app.bot, "/off"))
             assert app.bot_data["store"].get(42)["enabled"] == 0
             await app.process_update(incoming(app.bot, "/today", chat_id=7))
-            assert "Пока нет расписания" in transport.messages[-1]["text"]
+            assert len(Schedule.loads(app.bot_data["store"].get(7)["schedule"]).lessons) == 25
+            assert app.bot_data["store"].get(42)["schedule"] == old["schedule"]
     asyncio.run(scenario())
 
 

@@ -11,7 +11,7 @@ from telegram.ext import CommandHandler, ContextTypes, ConversationHandler, Mess
 
 from telegram_labs.app import (
     FORMAT, PRIVATE_TEXT, SCHEDULE_INPUT, UPLOAD, add_common_handlers, clear_draft,
-    create_base, delete, now, read_input, reply, route_buttons, run, start, store,
+    create_base, delete, read_input, reply, request_day, route_buttons, run, start, store,
 )
 from telegram_labs.schedule import parse_schedule, parse_time
 
@@ -51,8 +51,9 @@ async def receive_time(update: Update, context: ContextTypes.DEFAULT_TYPE):
     schedule = context.user_data["draft"]
     await reply(update, f"Шаг 3/3 — подтверждение\n\nЗанятий в расписании: {len(schedule.lessons)}.\n"
                 f"Ежедневная отправка: {value} ({context.bot_data['timezone']}).\n\n"
-                + schedule.render_week(now(context).date())
-                + "\n\nПроверь расписание и нажми «Сохранить» или «Отмена».", CONFIRM_KEYS)
+                + schedule.render_day(request_day(update, context))
+                + "\n\nЭто пример дня. Полная неделя доступна после сохранения.\n"
+                "Нажми «Сохранить» или «Отмена».", CONFIRM_KEYS)
     return CONFIRM
 
 

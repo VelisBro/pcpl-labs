@@ -26,10 +26,15 @@
 Использованы Python 3.10+, python-telegram-bot 22.8, python-dotenv 1.2.1 и SQLite.
 Модули schedule.py, storage.py и app.py общие для двух лабораторных.
 Каждый чат имеет собственное расписание и настройки. Бот работает в личных чатах.
+Команда /start автоматически подключает подготовленное расписание ИУ5-32Б,
+показывает занятия на день отправки запроса текстом и включает рассылку на 08:00.
+Повторный /start сохраняет прежнее расписание и настройки. Для ответа по запросу
+поддерживаются кнопка «Сегодня», команда /today и слова «сегодня» или «расписание».
 SQLite хранит расписание в JSON, время уведомления, флаг включения и дату последней отправки.
 Для двух лабораторных используются отдельные базы.
 
-Ввод — текст либо TXT в UTF-8. Строка занятия содержит день, интервал времени,
+Необязательное изменение расписания через /upload принимает текст либо TXT в UTF-8.
+Строка занятия содержит день, интервал времени,
 предмет, место и вид недели. Проверяются формат, допустимое время и пересечения.
 Ошибочная загрузка не заменяет сохранённые данные. Фотографии автоматически не распознаются.
 
@@ -41,10 +46,14 @@ SQLite хранит расписание в JSON, время уведомлен�
 
 Кнопки главного меню создаются ReplyKeyboardMarkup. Команды /today, /tomorrow и /week
 показывают занятия; /notify ЧЧ:ММ включает отправку, /off отключает её.
-Время и дата вычисляются в Europe/Moscow. JobQueue каждые 30 секунд проверяет,
+Дата ответа вычисляется из момента отправки запроса в Europe/Moscow,
+поэтому задержка обработки через полночь не меняет день запроса.
+JobQueue использует текущую дату и каждые 30 секунд проверяет,
 кому наступило время отправки. После успешной отправки дата сохраняется в SQLite.
 Повтор при обычном перезапуске исключён; сетевой сбой вызывает новую попытку,
 блокировка бота пользователем выключает его рассылку.
+Для обычных ответов увеличено время ожидания Telegram, временная сетевая ошибка
+вызывает одну повторную попытку. Предпросмотр при настройке ограничен одним днём.
 
 Простой бот не использует конечный автомат. Обработчик receive различает кнопки
 и данные расписания. После успешного разбора сохраняет расписание сразу; для нового
@@ -62,7 +71,8 @@ python telegram_labs/launch.py --lab 5
 ```
 
 Ввести новый токен BotFather в скрытый запрос, открыть бота и отправить /start.
-Затем получить файл командой /template и загрузить его через /upload.
+Готовое расписание подключится автоматически, бот сразу покажет текущий день.
+Для демонстрации загрузки получить файл командой /template и загрузить через /upload.
 Токен хранится только в локальном .env и не включается в отчёт.
 Один токен используется только одним запущенным процессом.
 
@@ -77,6 +87,8 @@ python -m telegram_labs.demo 5
 Локальный транспорт подменяет ответы Bot API, при этом используется настоящий
 диспетчер python-telegram-bot. Проверяются загрузка TXT, ошибки формата, выбор занятий,
 переключение ЧС/ЗН, отмена, изоляция чатов, сохранение настроек, ошибки отправки и блокировка.
+Дополнительно проверены запуск без повторной загрузки, время 8:00, повтор после TimedOut
+и запрос, отправленный до полуночи, но обработанный на следующий день.
 Для ЛР 6 дополнительно проверен полный проход через три состояния до подтверждения.
 Тесты не обращаются к Telegram и не подтверждают фактическую сетевую доставку.
 
@@ -378,6 +390,7 @@ class Store:
 ```python
 """Общие команды, кнопки, загрузка TXT и ежедневная рассылка."""
 from datetime import datetime, timedelta
+import asyncio
 from io import BytesIO
 import logging
 import os
@@ -389,7 +402,7 @@ from telegram import BotCommand, ReplyKeyboardMarkup, Update
 from telegram.error import Conflict, Forbidden, InvalidToken, NetworkError, TelegramError
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
-from .schedule import Schedule, parse_time
+from .schedule import Schedule, parse_schedule, parse_time
 from .storage import Store
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -423,7 +436,15 @@ def chunks(text: str):
 
 async def reply(update: Update, text: str, markup=MENU):
     for part in chunks(text):
-        await update.effective_message.reply_text(part, reply_markup=markup)
+        for attempt in range(2):
+            try:
+                await update.effective_message.reply_text(part, reply_markup=markup)
+                break
+            except NetworkError:
+                if attempt:
+                    raise
+                LOG.warning("Ответ отложен из-за сетевой ошибки; повторная попытка")
+                await asyncio.sleep(0.5)
 
 
 async def read_input(update: Update) -> str:
@@ -453,6 +474,31 @@ def now(context: ContextTypes.DEFAULT_TYPE) -> datetime:
     return datetime.now(context.bot_data["timezone"])
 
 
+def request_day(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Дата отправки запроса пользователем по Москве, даже при задержке обработки."""
+    return update.effective_message.date.astimezone(context.bot_data["timezone"]).date()
+
+
+def get_diary(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    database = store(context)
+    chat_id = update.effective_chat.id
+    row = database.get(chat_id)
+    created = row is None
+    if created:
+        schedule = parse_schedule((ROOT / "telegram_labs/data/iu5_32b.txt").read_text(encoding="utf-8"))
+        database.save(chat_id, schedule, "08:00")
+        row = database.get(chat_id)
+    return row, created
+
+
+def mark_initial_delivery(update: Update, context: ContextTypes.DEFAULT_TYPE, row, created):
+    current = now(context)
+    if (created and request_day(update, context) == current.date()
+            and current.strftime("%H:%M") >= row["notify_time"]):
+        # Первый ответ уже содержит сегодняшний день; повтор от таймера не нужен.
+        store(context).mark_sent(update.effective_chat.id, current)
+
+
 def clear_draft(context: ContextTypes.DEFAULT_TYPE):
     context.user_data.pop("draft", None)
     context.user_data.pop("draft_time", None)
@@ -460,13 +506,14 @@ def clear_draft(context: ContextTypes.DEFAULT_TYPE):
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     clear_draft(context)
-    row = store(context).get(update.effective_chat.id)
-    status = "Расписание сохранено." if row else "Сначала загрузи расписание."
-    await reply(update, f"Привет! Я учебный ежедневник. Лабораторная №{context.bot_data['lab']}.\n"
-                f"{status}\n\nПокажу занятия на сегодня, завтра и неделю. "
-                "После загрузки могу присылать их каждый день в выбранное время.\n"
-                "Все даты и время: " + str(context.bot_data["timezone"]) + ".\n"
-                "/help — формат загрузки; /cancel — отмена ввода.")
+    row, created = get_diary(update, context)
+    status = (f"Буду присылать занятия ежедневно в {row['notify_time']} ({context.bot_data['timezone']})."
+              if row["enabled"] else "Ежедневная отправка выключена. Включить: /notify 08:00")
+    title = "Твоё расписание ИУ5-32Б подключено." if created else "Твоё расписание сохранено."
+    schedule = Schedule.loads(row["schedule"])
+    await reply(update, f"{title}\n{status}\n\n" + schedule.render_day(request_day(update, context))
+                + "\n\nНажми «Сегодня» или напиши «расписание», чтобы получить занятия текстом.")
+    mark_initial_delivery(update, context, row, created)
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -483,16 +530,15 @@ async def template(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def show(update: Update, context: ContextTypes.DEFAULT_TYPE, mode: str):
-    row = store(context).get(update.effective_chat.id)
-    if row is None:
-        await reply(update, "Пока нет расписания. Нажми «Загрузить расписание».")
-        return
+    row, created = get_diary(update, context)
     schedule = Schedule.loads(row["schedule"])
-    day = now(context).date()
+    day = request_day(update, context)
     if mode == "tomorrow":
         day += timedelta(days=1)
     text = schedule.render_week(day) if mode == "week" else schedule.render_day(day)
     await reply(update, text)
+    if mode == "today":
+        mark_initial_delivery(update, context, row, created)
 
 
 async def today(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -549,8 +595,12 @@ async def delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def route_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
-    action = {TODAY: today, TOMORROW: tomorrow, WEEK: week,
-              SETTINGS: settings, TEMPLATE: template}.get(update.effective_message.text)
+    actions = {TODAY: today, TOMORROW: tomorrow, WEEK: week,
+               SETTINGS: settings, TEMPLATE: template,
+               "сегодня": today, "расписание": today, "расписание на сегодня": today,
+               "какие пары сегодня": today, "завтра": tomorrow, "неделя": week}
+    text = (update.effective_message.text or "").strip().casefold().rstrip("?!.")
+    action = {key.casefold(): value for key, value in actions.items()}.get(text)
     if action:
         await action(update, context)
         return True
@@ -601,6 +651,8 @@ def create_base(lab: int, token: str | None = None, db_path: Path | None = None,
     builder = Application.builder().token(token).concurrent_updates(False).post_init(post_init)
     if request is not None:
         builder = builder.request(request).get_updates_request(request)
+    else:
+        builder = builder.connect_timeout(20).read_timeout(30).write_timeout(30).pool_timeout(20)
     application = builder.build()
     application.bot_data.update(store=Store(db_path or ROOT / f"lab_{lab:02}/data/diary.sqlite3"),
                                 timezone=timezone, lab=lab)

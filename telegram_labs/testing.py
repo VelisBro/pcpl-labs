@@ -12,6 +12,7 @@ class OfflineTelegram(BaseRequest):
         self.calls = []
         self.file_content = b""
         self.failure = None
+        self.send_failures = []
 
     @property
     def read_timeout(self):
@@ -36,6 +37,8 @@ class OfflineTelegram(BaseRequest):
             result = {"file_id": "test_file", "file_unique_id": "unique_file",
                       "file_size": len(self.file_content), "file_path": "schedule.txt"}
         elif endpoint in ("sendMessage", "sendDocument"):
+            if self.send_failures:
+                raise self.send_failures.pop(0)
             if self.failure:
                 code, description = self.failure
                 return code, json.dumps({"ok": False, "error_code": code, "description": description}).encode()
@@ -50,8 +53,8 @@ class OfflineTelegram(BaseRequest):
         return 200, json.dumps({"ok": True, "result": result}, ensure_ascii=False).encode()
 
 
-def incoming(bot, text=None, chat_id=42, update_id=1, document=None):
-    message = {"message_id": update_id, "date": 1792573200,
+def incoming(bot, text=None, chat_id=42, update_id=1, document=None, timestamp=1792573200):
+    message = {"message_id": update_id, "date": timestamp,
                "chat": {"id": chat_id, "type": "private"},
                "from": {"id": chat_id, "is_bot": False, "first_name": "Студент"}}
     if text is not None:

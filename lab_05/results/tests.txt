@@ -20,4 +20,4 @@ lab_05/test_diary.py::test_store_isolation_restart_and_daily_marker PASSED [ 83%
 lab_05/test_diary.py::test_buttons_import_and_failed_replacement PASSED  [ 91%]
 lab_05/test_diary.py::test_daily_send_retry_and_blocked_chat PASSED      [100%]
 
-============================== 12 passed in 0.08s ==============================
+============================== 12 passed in 0.09s ==============================
