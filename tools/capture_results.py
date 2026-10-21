@@ -36,8 +36,8 @@ def main():
         4: [([f"lab_04/lab_python_fp/{name}.py"], None)
             for name in ("print_result", "cm_timer")] + [
             (["lab_04/main.py", "lab_04/data/demo.json", "--seed", "21"], None)],
-        5: [(["-m", "pytest", "lab_05", "-v", "--tb=short"], None)],
-        6: [(["lab_06/main.py"], None)],
+        5: [(["-m", "telegram_labs.demo", "5"], None)],
+        6: [(["-m", "telegram_labs.demo", "6"], None)],
     }
     for number, cases in commands.items():
         target = ROOT / f"lab_{number:02}" / "results"
