@@ -1,12 +1,10 @@
 """Повторяемая проверка ДЗ и РК. Запуск из корня: python3 tools/verify_extra.py."""
-import ast
 from pathlib import Path
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from rk_02.solution import sample_data, query_a1, query_a2, query_a3
 
 
 def run(args, cwd=ROOT, expected=0):
@@ -23,14 +21,9 @@ def save(folder, name, content):
 
 def main():
     rk1 = run([sys.executable, "rk_01/main.py"])
-    operators, languages, links = sample_data()
-    lines = rk1.splitlines()
-    rows = [ast.literal_eval(line) for line in lines if line.startswith("(")]
-    assert rows == query_a1(operators, languages) + query_a2(operators, languages)
-    for lang, names in query_a3(operators, languages, links).items():
-        assert f"{lang}: {', '.join(names)}" in lines
+    rk1_tests = run([sys.executable, "-m", "unittest", "rk_01.test_queries", "-v"])
     save("rk_01", "demo.txt", "$ python3 rk_01/main.py\n" + rk1)
-    save("rk_01", "checks.txt", "Результаты А1, А2, А3 совпали с функциями РК-2.\n")
+    save("rk_01", "checks.txt", rk1_tests)
 
     rk2 = run([sys.executable, "-m", "rk_02.solution"])
     tests = run([sys.executable, "-m", "unittest", "rk_02.test_queries", "-v"])
@@ -63,7 +56,7 @@ def main():
     save("homework", "checks.txt", "cargo fmt --check: OK\n" + lint
          + "CLI: обычный файл, ошибочная оценка, отсутствующий файл,\n"
            "нет аргументов, лишние аргументы, --help: 6 проверок OK.\n")
-    print("РК-1: три запроса проверены; РК-2: 3 теста; Rust: 6 тестов и 6 CLI-проверок OK.")
+    print("РК-1 Б18: 6 тестов; РК-2 А21: 3 теста; Rust: 6 тестов и 6 CLI-проверок OK.")
 
 
 if __name__ == "__main__":

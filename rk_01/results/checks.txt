@@ -1,1 +1,11 @@
-Результаты А1, А2, А3 совпали с функциями РК-2.
+test_b1_sorts_by_work (rk_01.test_queries.QueryTests.test_b1_sorts_by_work) ... ok
+test_b2_counts_primary_orchestras (rk_01.test_queries.QueryTests.test_b2_counts_primary_orchestras) ... ok
+test_b3_uses_many_to_many (rk_01.test_queries.QueryTests.test_b3_uses_many_to_many) ... ok
+test_empty_collections_and_empty_orchestra (rk_01.test_queries.QueryTests.test_empty_collections_and_empty_orchestra) ... ok
+test_ids_distinguish_equal_names (rk_01.test_queries.QueryTests.test_ids_distinguish_equal_names) ... ok
+test_suffix_and_missing_links (rk_01.test_queries.QueryTests.test_suffix_and_missing_links) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.000s
+
+OK
